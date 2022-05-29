@@ -3,11 +3,60 @@
 #include <stdlib.h>
 using namespace std;
 
-#define LEN_X 10u 
-#define LEFT 'a'
-#define RIGHT 'd'
+constexpr unsigned int  LEN_X = 10; 
+constexpr unsigned int  START = 0;
+constexpr unsigned int 	GOAL  = LEN_X - 1;
 
+constexpr char  LEFT = 'a';
+constexpr char RIGHT = 'd';
 
+void print_game_state(unsigned int player)
+{	char game_state[LEN_X];
+	for ( unsigned int i = 0 ; i < LEN_X ; i++)
+	{
+		game_state[i]= '.';
+	}
+	
+	game_state[START]  = '|';
+	game_state[GOAL]   = '|';
+	game_state[player] = 'p';
+
+	for ( unsigned int i = 0 ; i < LEN_X ; i++)
+	{
+		cout << game_state[i] ;
+	}
+}
+unsigned int execute_move(unsigned int player, char move)
+{
+	if(LEFT == move )
+		{
+			if( player > START )
+			{
+				player --;
+			}		
+		}
+		else if (RIGHT == move)
+		{
+			if( player < LEN_X - 1)
+			{
+				player ++;
+			}
+		}
+		else
+		{
+			cout << "Wrong move ! " << endl;
+		}	
+		return player;
+}
+bool is_finished(unsigned int player)
+{	
+	bool finished = false; 
+	if( player == GOAL)
+		{
+			finished = true;
+		}
+	return finished;	
+}
 
 void start_game()
 {
@@ -28,61 +77,21 @@ void game()
 	{
 	char next_game;
 	unsigned int player = 0;
-	unsigned int start= 0;
-	unsigned int goal = LEN_X - 1 ;
+	unsigned int START= 0;
+	unsigned int GOAL = LEN_X - 1 ;
 	char move;
 	bool finished = false;
 	
 	start_game();
 	while ( !finished )
 	{
-		for ( unsigned int i = 0 ; i < LEN_X ; i++)
-		{
-			if( i != 0 && i != goal && i != player)
-			{
-				cout << '.' ;
-			}
-			else if ( i== player)
-			{
-				cout << 'P' ;
-			}
-			else 
-			{
-				cout << '|';
-			}
-		}
-
+		print_game_state(player);
 		cin >> move;
 		system ("Clear");
-
-		if(LEFT == move )
-		{
-			if( player > start )
-			{
-				player --;
-			}		
-		}
-		else if (RIGHT == move)
-		{
-			if( player < LEN_X - 1)
-			{
-				player ++;
-			}
-		}
-		else
-		{
-			cout << "Wrong move ! " << endl;
-		}	
-
-		if( player == goal)
-		{
-			finished = true;
-		}
-		else
-		{
-			finished = false;
-		}
+		player = execute_move(player,move);
+		finished = is_finished(player);
 	}
+	
 	end_game();
 	cin >> next_game ;
 	if (next_game == 'y')
