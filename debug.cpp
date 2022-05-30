@@ -1,36 +1,53 @@
 #include <iostream>
 using namespace std;
-
-void push_back(int *&input_array, const unsigned int &size, const int &value)
+enum Lane
 {
-	int *temp = new int [size + 1];
-	for(unsigned int i = 0; i < size ; i++)
+	RIGHT_LANE,
+	CENTRAL_LINE,
+	LEFT_LANE,
+};
+struct vehicle
+{
+	int id;
+	float velocits;
+	Lane lane;
+
+};
+void print_vehicle(vehicle &vehicle)
+{	
+	cout << "Vehicle ID= " << vehicle.id << endl;
+	cout << "Vehicle velocity= " << vehicle.velocits << endl;
+	switch (vehicle.lane)
 	{
-		temp[i] = input_array[i];
+		case Lane::CENTRAL_LINE:
+		{
+			cout << "Vehicle lane= Central Lane" << endl;
+			break;
+		}
+		case Lane::LEFT_LANE:
+		{
+			cout << "Verhicle lane = Left lane"<< endl;
+			break;
+		}
+		case Lane::RIGHT_LANE:
+		{
+			cout << "Vehicle lane = Right lane" << endl;
+			break;
+		}
+		default:
+		{
+			break;
+		}
 	}
-	temp[size] = value ;
-	delete[] input_array;
-	input_array = temp;
-
+	
 }
-
 
 int main ()
 {	
-	unsigned int size = 3;
-	int *mydata = new int [size];
-	for (int i = 0 ; i < 3 ; i ++)
-	{
-		mydata[i]= i;
-	}
-	for (int i = 0 ; i < 3 ; i ++)
-	{
-		cout << mydata[i] << endl;
-	}
-	push_back(mydata, size, 7856 );
-	for (int i = 0 ; i < 4 ; i ++)
-	{
-		cout << mydata[i] << endl;
-	}
+	
+	vehicle v1 = {.id = 34,.velocits= 45.6f,.lane= Lane::RIGHT_LANE};
+	print_vehicle(v1);
+	
 	return 0;
+
 }
